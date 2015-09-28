@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Wyszukiwarka Cards.mtgmarket.pl</title>
+    <link href="/Content/dest.css" type="text/css" rel="stylesheet" />
+</head>
+<body data-ng-app="cards.mtgmarket.pl" data-ng-controller="mtgSearchCtrl as vm">
+    <header>
+        <a href="/" class="banner">
+            <img src="/Content/cards-mtg-market-logo.png" alt="Magic The Gathering Market - mtgmarket.pl" />
+        </a>
+        <h1>Wyszukiwarka kart Magic The Gathering <small><a href="/">cards.mtgmarket.pl</a></small></h1>
+    </header>
+    <section id="search">
+        <input type="text" placeholder="Wyszukaj kartę" id="search-query"
+            data-ng-model="vm.query" data-ng-model-options="{ debounce: 500 }"
+            data-ng-change="vm.updateCardsByQuery()" />
+    </section>
+
+    <section id="result">
+        <div class="card" data-ng-repeat="card in vm.cards">
+            <div class="col col-220">
+                <img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{::card.lastSet.multiverse_id}}&type=card" alt="{{::card.name}}" />
+            </div>
+            <div class="col col-270">
+                <h3>
+                    <img src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&size=small&rarity={{::card.lastSet.rarity[0]}}&set={{::card.lastSet.set_id}}"
+                        alt="{{::card.lastSet.set}}"
+                        onerror="this.onerror=null;this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=';" />
+                    {{::card.name |cut:false:16:'~'}} <small>[{{::card.lastSet.set_id}} - {{::card.lastSet.set|cut:false:20:'~'}}]</small>
+                </h3>
+                <ul >
+                    <li data-ng-repeat="(format,legacy) in card.formats">{{::legacy|capitalize}} in <strong>{{::format|capitalize}}</strong></li>
+                </ul>
+                <a href="http://allegro.pl/listing/user/listing.php?us_id=16079503&string={{::card.name}}">Sprawdź naszą ofertę na allegro</a>
+                <ul class="without-points">
+                    <li data-ng-repeat="edition in card.editions" >
+                        <img src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&size=small&rarity={{::edition.rarity[0]}}&set={{::edition.set_id}}"
+                            alt="{{::edition.set}}"
+                            onerror="this.onerror=null;this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=';" />
+                        {{::edition.set_id}} - <strong>{{::edition.set|cut:true:19:'..'}}</strong>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </section>
+    <footer>
+        Powered by mtgmarket.pl
+    </footer>
+    <script src="/Content/dest.js"></script>
+</body>
+</html>
