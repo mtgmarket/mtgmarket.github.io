@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿<!DOCTYPE XHTML 1.0 Transitional>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -18,37 +18,35 @@
             data-ng-change="vm.updateCardsByQuery()" />
     </section>
 
-    <section id="result">
+    <section id="result" when-scrolled="vm.onScrollLoadCards()">
         <div class="card" data-ng-repeat="card in vm.cards">
             <div class="col col-220">
-                <img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{::card.lastSet.multiverse_id}}&type=card" alt="{{::card.name}}" />
+                <a href="{{::card.store_url}}" class="without-effects"><img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={{::card.displayedSet.multiverse_id}}&type=card" alt="{{::card.name}}" /></a>
             </div>
             <div class="col col-270">
                 <h3>
-                    <img src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&size=small&rarity={{::card.lastSet.rarity[0]}}&set={{::card.lastSet.set_id}}"
-                        alt="{{::card.lastSet.set}}"
+                    <a href="{{::card.store_url}}" class="without-effects"><img src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&size=small&rarity={{::card.displayedSet.rarity[0]}}&set={{::card.displayedSet.set_id}}"
+                        alt="{{::card.displayedSet.set}}"
                         onerror="this.onerror=null;this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=';" />
-                    {{::card.name |cut:false:16:'~'}} <small>[{{::card.lastSet.set_id}} - {{::card.lastSet.set|cut:false:20:'~'}}]</small>
+                    {{::card.name }} <small>[{{::card.displayedSet.set_id}} - {{::card.displayedSet.set}}]</small></a>
                 </h3>
-                <ul >
-                    <li data-ng-repeat="(format,legacy) in card.formats">{{::legacy|capitalize}} in <strong>{{::format|capitalize}}</strong></li>
-                </ul>
-                <a href="http://allegro.pl/listing/user/listing.php?us_id=16079503&string={{::card.name}}">Sprawdź naszą ofertę na allegro</a>
+                <a href="{{::card.store_url}}" class="hide-and-show">Sprawdź naszą ofertę na allegro</a>
                 <ul class="without-points">
                     <li data-ng-repeat="edition in card.editions" >
                         <img src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&size=small&rarity={{::edition.rarity[0]}}&set={{::edition.set_id}}"
                             alt="{{::edition.set}}"
                             onerror="this.onerror=null;this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=';" />
-                        {{::edition.set_id}} - <strong>{{::edition.set|cut:true:19:'..'}}</strong>
+                        {{::edition.set_id}} - <strong>{{::edition.set}}</strong>
                     </li>
                 </ul>
 
             </div>
         </div>
     </section>
-    <footer>
+    <footer data-ng-click="vm.loadNextPage()">
         Powered by mtgmarket.pl
     </footer>
     <script src="/Content/dest.js"></script>
+
 </body>
 </html>
